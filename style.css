@@ -1,140 +1,165 @@
-/* تنسيقات إضافية خاصة بعزل لوحة الأدمن والـ CRUD */
+:root {
+    --bg-dark: #050608;
+    --card-dark: rgba(18, 22, 32, 0.85);
+    --text-dark: #f5f7fa;
+    --accent-blue: #0071e3;
+    --cyber-glow: rgba(0, 113, 227, 0.4);
+    --bubble-bg: rgba(255, 255, 255, 0.03);
+    --bubble-border: rgba(255, 255, 255, 0.08);
+    
+    --bg-light: #f5f7fa;
+    --card-light: rgba(255, 255, 255, 0.85);
+    --text-light: #1d1d1f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { line-height: 1.6; overflow-x: hidden; }
+body.dark-theme { background-color: var(--bg-dark); color: var(--text-dark); }
+body.light-theme { 
+    background-color: var(--bg-light); color: var(--text-light); 
+    --bubble-bg: rgba(0, 0, 0, 0.03); --bubble-border: rgba(0, 0, 0, 0.08);
+}
+
+/* الهيدر التفاعلي والأشكال الفقاعية */
+header {
+    display: flex; justify-content: space-between; align-items: center; padding: 15px 5%;
+    position: fixed; width: 100%; top: 0; z-index: 100; backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--bubble-border); transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+header.nav-hidden { transform: translateY(-100%); }
+.menu-toggle { display: none; background: transparent; border: none; color: inherit; font-size: 24px; cursor: pointer; }
+
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; letter-spacing: 1.5px; }
+.logo span { color: var(--accent-blue); }
+.logo-icon { width: 38px; height: 38px; fill: none; }
+.logo-triangle { stroke: var(--accent-blue); stroke-width: 5; stroke-linejoin: round; }
+.logo-curve { stroke: currentColor; stroke-width: 5.5; stroke-linecap: round; }
+.logo-h-lines { stroke: var(--accent-blue); stroke-width: 5; stroke-linecap: round; }
+.logo-orbit { stroke: var(--accent-blue); stroke-width: 3.5; stroke-linecap: round; opacity: 0.8; }
+
+/* تأثير الحاوية الفقاعية المحمية */
+.nav-bubble-wrapper {
+    position: relative; background: var(--bubble-bg); border: 1px solid var(--bubble-border);
+    padding: 7px 20px; border-radius: 30px; display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.nav-bubble-wrapper:hover {
+    transform: translateY(-2px); background: rgba(0, 113, 227, 0.08);
+    border-color: rgba(0, 113, 227, 0.3); box-shadow: 0 0 15px var(--cyber-glow);
+}
+.inline-bubble { padding: 0; border-radius: 40px; }
+
+nav { display: flex; gap: 15px; }
+nav a { text-decoration: none; color: inherit; font-weight: 500; font-size: 14px; }
+.controls { display: flex; gap: 10px; }
+.btn-control { background: transparent; border: none; color: inherit; cursor: pointer; font-size: 15px; }
+
+/* القائمة المنسدلة للغات */
+.lang-dropdown-container { position: relative; font-weight: 700; font-size: 13px; }
+.lang-dropdown-menu {
+    position: absolute; top: 45px; right: 0; background: rgba(10, 11, 16, 0.95);
+    border: 1px solid var(--bubble-border); backdrop-filter: blur(16px); border-radius: 16px;
+    list-style: none; padding: 8px 0; width: 120px; opacity: 0; pointer-events: none;
+    transform: translateY(-10px); transition: transform 0.3s, opacity 0.3s; z-index: 200;
+}
+body.light-theme .lang-dropdown-menu { background: #fff; }
+.lang-dropdown-container:hover .lang-dropdown-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.lang-dropdown-menu li { padding: 8px 16px; cursor: pointer; text-align: center; }
+.lang-dropdown-menu li:hover { background: var(--accent-blue); color: white; }
+
+/* الأقسام والصفحة الرئيسية */
+.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; background: radial-gradient(circle at center, rgba(0, 113, 227, 0.12) 0%, transparent 65%); }
+.hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 25px; letter-spacing: -1px; }
+.hero p { font-size: 1.25rem; max-width: 650px; margin: 0 auto; opacity: 0.75; }
+.btn-primary { padding: 12px 32px; background-color: var(--accent-blue); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; display: inline-block; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,113,227,0.3); }
+.btn-primary.full-width { width: 100%; text-align: center; }
+
+.features { padding: 120px 5% 60px; text-align: center; }
+.cards-container { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+.glass-card { background: var(--card-dark); border: 1px solid var(--bubble-border); backdrop-filter: blur(20px); border-radius: 24px; padding: 40px 30px; width: 380px; text-align: inherit; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+body.light-theme .glass-card { background: var(--card-light); color: var(--text-light); }
+.glass-card h3 { color: var(--accent-blue); margin-bottom: 15px; font-size: 1.4rem; }
+.glass-card p { opacity: 0.75; font-size: 0.95rem; }
+
+.cyber-section { padding: 80px 5%; text-align: center; background: var(--bubble-bg); border: 1px solid var(--bubble-border); border-radius: 24px; margin: 40px 5%; }
+.cyber-badge { display: inline-block; padding: 5px 14px; background: rgba(0, 113, 227, 0.1); color: var(--accent-blue); border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; }
+
+footer { padding: 40px 5%; text-align: center; border-top: 1px solid var(--bubble-border); font-size: 14px; opacity: 0.6; }
+
+/* 🌟 حظر وإخفاء واجهات العرض المتداخلة 🌟 */
+.hidden-view { display: none !important; }
+
+/* 🌐 كود عزل لوحة الإشراف كصفحة منفصلة تماماً ومستقلة 🌐 */
 .standalone-admin-page {
     background-color: #020304 !important;
     min-height: 100vh;
     width: 100vw;
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 500; /* يغطي كل شيء بما في ذلك الهيدر الأساسي */
+    top: 0; left: 0;
+    z-index: 5000; /* قيمة هائلة لضمان حجب الصفحة الرئيسية والنافبار تماماً */
 }
+.admin-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px; background: radial-gradient(circle at center, rgba(0, 113, 227, 0.08) 0%, transparent 70%); }
+.modern-admin-card { max-width: 460px; width: 100%; padding: 40px; text-align: center; border-radius: 24px; }
+.admin-header-icon { font-size: 45px; margin-bottom: 20px; }
+.modern-admin-card h2 { margin-bottom: 35px; font-weight: 700; font-size: 1.7rem; }
 
-.dashboard-extended-card {
-    max-width: 1100px;
-    width: 100%;
-    padding: 35px;
-    border-radius: 24px;
-    background: rgba(14, 18, 28, 0.95) !important;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
-}
+.dashboard-extended-card { max-width: 1100px; width: 100%; padding: 35px; border-radius: 24px; background: rgba(14, 18, 28, 0.98) !important; box-shadow: 0 30px 70px rgba(0,0,0,0.6); text-align: left; }
+body[dir="rtl"] .dashboard-extended-card { text-align: right; }
+.dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--bubble-border); padding-bottom: 15px; }
+.panel-subtitle { font-size: 12px; opacity: 0.5; margin-top: 4px; font-family: monospace; color: var(--accent-blue); }
+.btn-terminal-close { background: rgba(255, 59, 48, 0.1); border: 1px solid #ff3b30; color: #ff3b30; padding: 6px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; }
 
-.panel-subtitle {
-    font-size: 12px;
-    opacity: 0.5;
-    margin-top: 4px;
-    font-family: monospace;
-    color: var(--accent-blue);
-}
+.panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.panel-section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--accent-blue); border-left: 3px solid var(--accent-blue); padding-left: 10px; }
+body[dir="rtl"] .panel-section-title { border-left: none; border-right: 3px solid var(--accent-blue); padding-right: 10px; }
 
-.panel-section-title {
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    color: var(--accent-blue);
-    border-left: 3px solid var(--accent-blue);
-    padding-left: 10px;
-}
-body[dir="rtl"] .panel-section-title {
-    border-left: none;
-    border-right: 3px solid var(--accent-blue);
-    padding-left: 0;
-    padding-right: 10px;
-}
+/* حقول الإدخال */
+.field-group { position: relative; margin-bottom: 25px; width: 100%; }
+.field-group input, .field-group textarea, .clean-select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--bubble-border); background: rgba(0,0,0,0.3); color: inherit; outline: none; font-size: 15px; }
+.field-group label { position: absolute; left: 14px; top: 14px; pointer-events: none; opacity: 0.5; transition: all 0.2s ease; }
+body[dir="rtl"] .field-group label { left: auto; right: 14px; }
+.field-group input:focus ~ label, .field-group input:not(:placeholder-shown) ~ label,
+.field-group textarea:focus ~ label, .field-group textarea:not(:placeholder-shown) ~ label { top: -22px; font-size: 12px; opacity: 0.9; color: var(--accent-blue); }
 
-.action-buttons-group {
-    display: flex;
-    gap: 15px;
-}
+.clean-select { cursor: pointer; appearance: none; background: #0c0e14; }
+.select-wrapper::after { content: "▼"; font-size: 10px; position: absolute; right: 15px; top: 18px; pointer-events: none; opacity: 0.5; }
+body[dir="rtl"] .select-wrapper::after { right: auto; left: 15px; }
 
-.btn-secondary {
-    padding: 12px 32px;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: white;
-    border-radius: 30px;
-    font-weight: 600;
-    display: inline-block;
-    border: 1px solid var(--bubble-border);
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
+/* قطاع الرفع والسحب */
+.drop-zone { border: 2px dashed var(--bubble-border); border-radius: 16px; padding: 40px 20px; text-align: center; position: relative; cursor: pointer; background: rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; min-height: 140px; }
+.drop-zone-prompt { font-size: 13px; opacity: 0.6; }
+.drop-zone-file { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
 
-/* تصميم جدول الـ CRUD الاحترافي */
-.management-table-wrapper {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--bubble-border);
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 35px;
-}
+.action-buttons-group { display: flex; gap: 15px; }
+.btn-secondary { padding: 12px 32px; background-color: rgba(255, 255, 255, 0.05); color: white; border-radius: 30px; font-weight: 600; border: 1px solid var(--bubble-border); cursor: pointer; }
 
-.table-scroll {
-    overflow-x: auto;
-    width: 100%;
-}
+/* شريط التقدم */
+.progress-container { margin-top: 20px; }
+.progress-details { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.progress-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.progress-bar-fill { width: 0%; height: 100%; background: var(--accent-blue); transition: width 0.1s linear; }
+.server-error { color: #ff3b30; font-size: 13px; margin-top: 12px; }
+.margin-top { margin-top: 20px; }
 
-.crud-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 14px;
-}
-body[dir="rtl"] .crud-table {
-    text-align: right;
-}
+/* جدول التحكم CRUD */
+.management-table-wrapper { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--bubble-border); border-radius: 16px; padding: 20px; }
+.table-scroll { overflow-x: auto; width: 100%; }
+.crud-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.crud-table th, .crud-table td { padding: 12px 16px; border-bottom: 1px solid var(--bubble-border); }
+.crud-table th { opacity: 0.6; font-size: 12px; text-transform: uppercase; }
+.btn-action-edit { background: rgba(0, 113, 227, 0.15); color: #3498db; border: 1px solid rgba(0, 113, 227, 0.3); padding: 5px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px; }
+.btn-action-delete { background: rgba(255, 59, 48, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 59, 48, 0.3); padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+.table-badge { display: inline-block; padding: 3px 8px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 11px; }
 
-.crud-table th, .crud-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--bubble-border);
-}
+.animate-fade-in { animation: fadeIn 0.4s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.crud-table th {
-    font-weight: 600;
-    opacity: 0.6;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-}
-
-.crud-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-/* أزرار الإجراءات داخل الجدول */
-.btn-action-edit {
-    background: rgba(0, 113, 227, 0.15);
-    color: #3498db;
-    border: 1px solid rgba(0, 113, 227, 0.3);
-    padding: 5px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-right: 8px;
-    transition: background 0.2s;
-}
-.btn-action-edit:hover { background: var(--accent-blue); color: white; }
-
-.btn-action-delete {
-    background: rgba(255, 59, 48, 0.15);
-    color: #ff4d4d;
-    border: 1px solid rgba(255, 59, 48, 0.3);
-    padding: 5px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.2s;
-}
-.btn-action-delete:hover { background: #ff3b30; color: white; }
-
-.table-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
+/* التجاوب والتوافق للشاشات */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    nav { position: absolute; top: 70px; left: 0; width: 100%; background: #050608; border-bottom: 1px solid var(--bubble-border); flex-direction: column; padding: 20px; gap: 15px; display: none; }
+    nav.open { display: flex; }
+    .hero h1 { font-size: 2.3rem; }
+    .panel-grid { grid-template-columns: 1fr; }
 }
