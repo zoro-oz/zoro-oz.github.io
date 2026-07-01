@@ -1,94 +1,5 @@
-const translations = {
-    en: {
-        "logo-sub": "LABS", "nav-home": "Home", "nav-games": "Game Studio", "nav-updates": "Updates", "nav-cyber": "Cyber Labs",
-        "hero-title": "Innovating the Future of Gaming with AI",
-        "hero-desc": "Merging artificial intelligence engineering with interactive gaming, secured by advanced cybersecurity solutions.",
-        "hero-btn": "Explore Projects", "games-title": "Smart Gaming Studio 🎮",
-        "card1-title": "Advanced AI Brains", "card1-desc": "Developing NPCs that learn from your playstyle and adapt to challenge you dynamically in real-time.",
-        "card2-title": "Generative Worlds", "card2-desc": "Building procedural environments and levels that evolve infinitely using intelligent AI algorithms.",
-        "cyber-badge": "Coming Soon", "cyber-title": "Cybersecurity Labs 🔒",
-        "cyber-desc": "We are working behind the scenes to engineer smart vulnerability scanners and AI-powered defense tools to secure the digital frontier.",
-        "footer-creators": "Founded by Hachem & Chahrazad", "section-updates-title": "Latest News & Releases",
-        "admin-login-head": "System Authentication", "admin-login-btn": "Verify Identity"
-    },
-    fr: {
-        "logo-sub": "LABS", "nav-home": "Accueil", "nav-games": "Studio de Jeux", "nav-updates": "Mises à jour", "nav-cyber": "Cyber Labs",
-        "hero-title": "Innover l'Avenir du Jeu avec l'IA",
-        "hero-desc": "Fusionner l'ingénierie de l'intelligence artificielle avec le jeu interactif, sécurisé par des solutions de cybersécurité avancées.",
-        "hero-btn": "Explorer les Projets", "games-title": "Studio de Jeux Intelligents 🎮",
-        "card1-title": "Cerveaux IA Avancés", "card1-desc": "Développement de PNJ qui apprennent de votre style de jeu et s'adaptent pour vous défier dynamiquement en temps réel.",
-        "card2-title": "Mondes Génératifs", "card2-desc": "Création d'environnements et de niveaux procéduraux qui évoluent à l'infini grâce à des algorithmes d'IA intelligents.",
-        "cyber-badge": "Bientôt Disponible", "cyber-title": "Laboratoires de Cybersécurité 🔒",
-        "cyber-desc": "Nous travaillons en coulisses pour concevoir des scanners de vulnérabilités intelligents et des outils de défense basés sur l'IA.",
-        "footer-creators": "Fondé par Hachem & Chahrazad", "section-updates-title": "Actualités & Réalisations",
-        "admin-login-head": "Authentification Système", "admin-login-btn": "Vérifier l'Identité"
-    },
-    ar: {
-        "logo-sub": "للمختبرات", "nav-home": "الرئيسية", "nav-games": "استوديو الألعاب", "nav-updates": "التحديثات", "nav-cyber": "المختبر السيبراني",
-        "hero-title": "نبتكر مستقبل الألعاب بالذكاء الاصطناعي",
-        "hero-desc": "دمج هندسة الذكاء الاصطناعي بالألعاب التفاعلية، وتأمينها بأحدث حلول الأمن السيبراني المتقدمة مستقبلاً.",
-        "hero-btn": "استكشف مشاريعنا", "games-title": "استوديو الألعاب الذكية 🎮",
-        "card1-title": "عقول اصطناعية متطورة", "card1-desc": "تطوير شخصيات داخل الألعاب (NPCs) تتعلم من أسلوب لعبك وتتحداك بشكل واقعي وديناميكي.",
-        "card2-title": "عوالم توليدية", "card2-desc": "بناء بيئات ومراحل متغيرة تلقائياً وبشكل لانهائي باستخدام خوارزميات الذكاء الاصطناعي الذكية.",
-        "cyber-badge": "قريباً", "cyber-title": "مختبرات الأمن السيبراني 🔒",
-        "cyber-desc": "نعمل خلف الكواليس على تطوير أدوات فحص ثغرات ذكية وأنظمة دفاع مدعومة بالذكاء الاصطناعي لحماية الحدود الرقمية.",
-        "footer-creators": "تأسست بواسطة هاشم وشهرزاد", "section-updates-title": "آخر الأخبار والإصدارات",
-        "admin-login-head": "المصادقة الأمنية للنظام", "admin-login-btn": "التحقق من الهوية"
-    }
-};
-
-// تهيئة التوجيه الافتراضي واللغات
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
-const currentLangLabel = document.getElementById('current-lang-label');
-const langOptions = document.querySelectorAll('.lang-dropdown-menu li');
-const navbar = document.getElementById('navbar');
-const menuToggle = document.getElementById('menu-toggle');
-const navMenu = document.getElementById('nav-menu');
-
-let currentLang = localStorage.getItem('lang') || 'en';
-let currentTheme = localStorage.getItem('theme') || 'dark-theme';
-
-document.body.className = currentTheme;
-applyLanguage(currentLang);
-
-// المنيو المتجاوب للهاتف
-menuToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
-
-themeToggleBtn.addEventListener('click', () => {
-    const nextTheme = document.body.classList.contains('dark-theme') ? 'light-theme' : 'dark-theme';
-    document.body.className = nextTheme;
-    localStorage.setItem('theme', nextTheme);
-});
-
-langOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        currentLang = option.getAttribute('data-lang');
-        localStorage.setItem('lang', currentLang);
-        applyLanguage(currentLang);
-    });
-});
-
-function applyLanguage(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    currentLangLabel.textContent = lang.toUpperCase();
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) el.textContent = translations[lang][key];
-    });
-}
-
-// التحكم بهيدر الاختفاء الذكي
-let lastScrollTop = 0;
-window.addEventListener('scroll', () => {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > lastScrollTop && scrollTop > 80) navbar.classList.add('nav-hidden');
-    else navbar.classList.remove('nav-hidden');
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-});
-
 /* =======================================================
-   🛡️ نظام التوجيه البرمجي السري والمصادقة (Virtual Router & CMS)
+   🛡️ نظام التوجيه البرمجي السري وعزل لوحة التحكم التام
    ======================================================= */
 const mainView = document.getElementById('main-view');
 const adminView = document.getElementById('admin-view');
@@ -96,23 +7,39 @@ const authBox = document.getElementById('auth-box');
 const dashboardBox = document.getElementById('dashboard-box');
 const authErrorLog = document.getElementById('auth-error-log');
 const updatesContainer = document.getElementById('updates-container');
+const adminTableBody = document.getElementById('admin-table-body');
 
+// معرفات الدخول الصارمة
 const SECURE_UID = "hachem";
 const SECURE_PAS = "apex2026";
 
-// فحص الرابط يدوياً تلبية لطلبك بـ إدخال /admin (أو المحاكاة الاحترافية عبر الـ query ?page=admin)
+// متغيرات تتبع وضع التعديل (CRUD State)
+let editModeId = null; 
+
 function handleRouting() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('page') === 'admin' || window.location.hash === '#admin') {
         mainView.classList.add('hidden-view');
+        navbar.classList.add('nav-hidden'); // إخفاء النافبار تماماً لمنع التشويش البصري
         adminView.classList.remove('hidden-view');
+        
+        if (localStorage.getItem('admin_session_active') === 'true') {
+            authBox.classList.add('hidden-view');
+            dashboardBox.classList.remove('hidden-view');
+            renderAdminTable();
+        } else {
+            authBox.classList.remove('hidden-view');
+            dashboardBox.classList.add('hidden-view');
+        }
     } else {
         adminView.classList.add('hidden-view');
+        navbar.classList.remove('nav-hidden'); // إعادة النافبار للمستخدم العادي
         mainView.classList.remove('hidden-view');
     }
 }
 window.addEventListener('popstate', handleRouting);
 window.addEventListener('load', handleRouting);
+
 document.getElementById('nav-home-link').addEventListener('click', () => {
     window.history.pushState({}, '', window.location.pathname);
     handleRouting();
@@ -124,37 +51,42 @@ document.getElementById('auth-submit-btn').addEventListener('click', () => {
     const p = document.getElementById('auth-pass').value;
 
     if (u === SECURE_UID && p === SECURE_PAS) {
+        localStorage.setItem('admin_session_active', 'true');
         authBox.classList.add('hidden-view');
         dashboardBox.classList.remove('hidden-view');
         authErrorLog.textContent = "";
+        renderAdminTable();
     } else {
-        authErrorLog.textContent = "Access Denied: Terminal mismatch or corrupt keys.";
+        authErrorLog.textContent = "Access Denied: Invalid Credentials.";
     }
 });
 
-// إنهاء الجلسة
+// تدمير الجلسة والعودة للرئيسية
 document.getElementById('auth-logout-btn').addEventListener('click', () => {
+    localStorage.removeItem('admin_session_active');
     dashboardBox.classList.add('hidden-view');
     authBox.classList.remove('hidden-view');
     document.getElementById('auth-user').value = "";
     document.getElementById('auth-pass').value = "";
+    exitEditMode();
     window.history.pushState({}, '', window.location.pathname);
     handleRouting();
 });
 
 /* =======================================================
-   ⏳ نظام إدارة الرفع والتقدم البرمجي المتفاعل (Upload & Deployment Engine)
+   ⏳ محرك إدارة السحب، الرفع، التعديل والحذف (CRUD Engine)
    ======================================================= */
 const fileDropZone = document.getElementById('file-drop-zone');
 const binaryFileInput = document.getElementById('binary-file-input');
 const uploadProgressWrapper = document.getElementById('upload-progress-wrapper');
 const progressBarFill = document.getElementById('progress-bar-fill');
 const uploadPercentage = document.getElementById('upload-percentage');
-const uploadFileName = document.getElementById('upload-file-name');
+const dataPublishBtn = document.getElementById('data-publish-btn');
+const cancelEditBtn = document.getElementById('data-cancel-edit-btn');
+const formActionTitle = document.getElementById('form-action-title');
 
 let attachedFile = null;
 
-// أحداث السحب والإفلات للملفات والتطبيقات
 ['dragenter', 'dragover'].forEach(eventName => {
     fileDropZone.addEventListener(eventName, (e) => { e.preventDefault(); fileDropZone.classList.add('drag-over'); }, false);
 });
@@ -164,8 +96,7 @@ let attachedFile = null;
 
 fileDropZone.addEventListener('drop', (e) => {
     const dt = e.dataTransfer;
-    const files = dt.files;
-    if(files.length) handleSelectedFile(files[0]);
+    if(dt.files.length) handleSelectedFile(dt.files[0]);
 });
 
 binaryFileInput.addEventListener('change', (e) => {
@@ -174,63 +105,165 @@ binaryFileInput.addEventListener('change', (e) => {
 
 function handleSelectedFile(file) {
     attachedFile = file;
-    uploadFileName.textContent = file.name + ` (${(file.size / (1024*1024)).toFixed(2)} MB)`;
-    uploadProgressWrapper.classList.remove('hidden-view');
-    progressBarFill.style.width = '0%';
-    uploadPercentage.textContent = '0%';
+    fileDropZone.querySelector('.drop-zone-prompt').textContent = `Selected Asset: ${file.name}`;
 }
 
-// تنفيذ الـ Deployment ومحاكاة رفع حزم البيانات الكبيرة
-document.getElementById('data-publish-btn').addEventListener('click', () => {
+// تنفيذ الرفع والنشر (أو التحديث بناءً على الوضع الحركي)
+dataPublishBtn.addEventListener('click', () => {
     const title = document.getElementById('data-title').value;
     const desc = document.getElementById('data-desc').value;
     const type = document.getElementById('data-type').value;
 
     if (!title || !desc) {
-        alert("System Error: Deploy fields cannot be empty.");
+        alert("System Architecture Violation: Fields cannot be empty.");
         return;
     }
 
     if (attachedFile) {
-        // محاكاة رفع حقيقي عبر الـ XMLHttpRequest لقياس الـ Progress بشكل دقيق واحترافي
+        uploadProgressWrapper.classList.remove('hidden-view');
         let progress = 0;
         const interval = setInterval(() => {
-            progress += 5;
+            progress += 20;
             progressBarFill.style.width = progress + '%';
             uploadPercentage.textContent = progress + '%';
             
             if (progress >= 100) {
                 clearInterval(interval);
-                finalizePublish(type, title, desc);
+                finalizePublishOrUpdate(type, title, desc);
             }
         }, 100);
     } else {
-        finalizePublish(type, title, desc);
+        finalizePublishOrUpdate(type, title, desc);
     }
 });
 
-function finalizePublish(type, title, desc) {
+function finalizePublishOrUpdate(type, title, desc) {
     let currentData = JSON.parse(localStorage.getItem('ch_apex_db_prod')) || [];
-    const newRecord = {
-        id: Date.now(),
-        type: type,
-        title: title,
-        desc: desc,
-        fileAttached: attachedFile ? attachedFile.name : null
-    };
-    currentData.unshift(newRecord);
+
+    if (editModeId !== null) {
+        // 🖋️ وضع التعديل: تحديث السجل القائم بالمطابقة مع الـ ID
+        currentData = currentData.map(item => {
+            if (item.id === editModeId) {
+                return {
+                    ...item,
+                    type: type,
+                    title: title,
+                    desc: desc,
+                    fileAttached: attachedFile ? attachedFile.name : item.fileAttached // الحفاظ على الملف القديم إن لم يتم رفع جديد
+                };
+            }
+            return item;
+        });
+        alert("Log Package Updated Successfully.");
+        exitEditMode();
+    } else {
+        // ➕ وضع الإنشاء: إضافة سجل جديد بالكامل
+        const newRecord = {
+            id: Date.now(),
+            type: type,
+            title: title,
+            desc: desc,
+            fileAttached: attachedFile ? attachedFile.name : null
+        };
+        currentData.unshift(newRecord);
+        alert("New Package Deployed and Sequenced.");
+    }
+
     localStorage.setItem('ch_apex_db_prod', JSON.stringify(currentData));
-
-    // تصفير الواجهة
-    document.getElementById('data-title').value = "";
-    document.getElementById('data-desc').value = "";
-    uploadProgressWrapper.classList.add('hidden-view');
-    attachedFile = null;
-
+    resetFormFields();
     renderContentFromDB();
-    alert("Deployment Executed Successfully. Synchronization complete.");
+    renderAdminTable();
 }
 
+// تشغيل وضع التعديل وجلب البيانات
+window.startEditPost = function(id) {
+    let currentData = JSON.parse(localStorage.getItem('ch_apex_db_prod')) || [];
+    const targetItem = currentData.find(item => item.id === id);
+    
+    if (targetItem) {
+        editModeId = id;
+        document.getElementById('data-title').value = targetItem.title;
+        document.getElementById('data-desc').value = targetItem.desc;
+        document.getElementById('data-type').value = targetItem.type;
+        
+        // تفعيل الإشارات والـ Inputs لتشعر بوجود النص (Floating Labels)
+        document.getElementById('data-title').dispatchEvent(new Event('input'));
+        document.getElementById('data-desc').dispatchEvent(new Event('input'));
+
+        if (targetItem.fileAttached) {
+            fileDropZone.querySelector('.drop-zone-prompt').textContent = `Current Asset: ${targetItem.fileAttached}`;
+        }
+
+        formActionTitle.textContent = "Modify Operational Package";
+        dataPublishBtn.textContent = "Execute Update Sequence";
+        cancelEditBtn.classList.remove('hidden-view');
+        
+        // صعود تلقائي ناعم لمنطقة النماذج لتعديلها
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
+
+// إلغاء وضع التعديل والعودة للوضع الطبيعي
+cancelEditBtn.addEventListener('click', exitEditMode);
+
+function exitEditMode() {
+    editModeId = null;
+    formActionTitle.textContent = "Deploy New Package";
+    dataPublishBtn.textContent = "Execute Deployment";
+    cancelEditBtn.classList.add('hidden-view');
+    resetFormFields();
+}
+
+// حذف المنشور نهائياً (إعدام السجل من قاعدة البيانات)
+window.deletePost = function(id) {
+    if (confirm("Are you absolute sure you want to terminate this package deployment permanently?")) {
+        let currentData = JSON.parse(localStorage.getItem('ch_apex_db_prod')) || [];
+        currentData = currentData.filter(item => item.id !== id);
+        localStorage.setItem('ch_apex_db_prod', JSON.stringify(currentData));
+        
+        if (editModeId === id) exitEditMode();
+        
+        renderContentFromDB();
+        renderAdminTable();
+    }
+};
+
+function resetFormFields() {
+    document.getElementById('data-title').value = "";
+    document.getElementById('data-desc').value = "";
+    fileDropZone.querySelector('.drop-zone-prompt').textContent = "Drag & Drop Application Binaries (.exe, .apk, .zip) or Click to Browse";
+    uploadProgressWrapper.classList.add('hidden-view');
+    progressBarFill.style.width = '0%';
+    uploadPercentage.textContent = '0%';
+    attachedFile = null;
+}
+
+// ضخ وعرض البيانات داخل جدول تحكم الإدارة السفلي
+function renderAdminTable() {
+    adminTableBody.innerHTML = "";
+    let currentData = JSON.parse(localStorage.getItem('ch_apex_db_prod')) || [];
+
+    if(currentData.length === 0) {
+        adminTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.4;">No logs sequenced in current cluster.</td></tr>`;
+        return;
+    }
+
+    currentData.forEach(item => {
+        adminTableBody.innerHTML += `
+            <tr>
+                <td><span class="table-badge">${item.type}</span></td>
+                <td style="font-weight:600;">${item.title}</td>
+                <td style="opacity:0.7; font-family:monospace;">${item.fileAttached ? item.fileAttached : 'None'}</td>
+                <td>
+                    <button class="btn-action-edit" onclick="startEditPost(${item.id})">Edit</button>
+                    <button class="btn-action-delete" onclick="deletePost(${item.id})">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// ضخ البيانات للمستخدم في الصفحة الرئيسية
 function renderContentFromDB() {
     updatesContainer.innerHTML = "";
     let currentData = JSON.parse(localStorage.getItem('ch_apex_db_prod')) || [];
@@ -243,14 +276,14 @@ function renderContentFromDB() {
     currentData.forEach(item => {
         updatesContainer.innerHTML += `
             <div class="card glass-card animate-fade-in">
-                <span class="card-badge">${item.type}</span>
+                <span class="cyber-badge" style="margin-bottom:10px; font-size:11px;">${item.type}</span>
                 <h3>${item.title}</h3>
                 <p>${item.desc}</p>
-                ${item.fileAttached ? `<div class="nav-bubble-wrapper margin-top" style="font-size:12px; width:100%;">📦 Download: ${item.fileAttached}</div>` : ''}
+                ${item.fileAttached ? `<div class="nav-bubble-wrapper margin-top" style="font-size:11px; width:100%; cursor:default;">📦 Packaged Application: ${item.fileAttached}</div>` : ''}
             </div>
         `;
     });
 }
 
-// عرض البيانات الإنشائية عند التشغيل لأول مرة
+// تحميل الواجهة للمرة الأولى
 renderContentFromDB();
