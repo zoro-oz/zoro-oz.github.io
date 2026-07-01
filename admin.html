@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH-Apex Labs | Terminal Command</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme" style="background-color: #020304;">
+
+    <div class="admin-wrapper animate-fade-in">
+        <div id="auth-box" class="glass-card modern-admin-card">
+            <div class="admin-header-icon">🔒</div>
+            <h2>System Authentication</h2>
+            <div class="field-group">
+                <input type="text" id="auth-user" required placeholder=" ">
+                <label>User ID</label>
+            </div>
+            <div class="field-group">
+                <input type="password" id="auth-pass" required placeholder=" ">
+                <label>Security Password</label>
+            </div>
+            <button id="auth-submit-btn" class="btn-primary full-width">Verify Identity</button>
+            <p id="auth-error-log" class="server-error"></p>
+        </div>
+
+        <div id="dashboard-box" class="glass-card dashboard-extended-card hidden-view">
+            <div class="dashboard-header">
+                <div>
+                    <h2>Terminal Control Center</h2>
+                    <p class="panel-subtitle">CH-Apex Labs CMS Engine v2.0</p>
+                </div>
+                <button id="auth-logout-btn" class="btn-terminal-close">Exit Console</button>
+            </div>
+            
+            <div class="panel-grid">
+                <div class="form-panel">
+                    <h3 class="panel-section-title" id="form-action-title">Deploy New Package</h3>
+                    <div class="field-group select-wrapper">
+                        <select id="data-type" class="clean-select">
+                            <option value="Game Deploy">Game Deploy / رفع لعبة</option>
+                            <option value="Cyber Tool">Cyber Tool / أداة سيبرانية</option>
+                            <option value="Core Article">Core Article / مقال تقني</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <input type="text" id="data-title" required placeholder=" ">
+                        <label>Content Title</label>
+                    </div>
+                    <div class="field-group">
+                        <textarea id="data-desc" required placeholder=" " rows="4"></textarea>
+                        <label>Detailed System Description</label>
+                    </div>
+                </div>
+
+                <div class="upload-panel">
+                    <h3 class="panel-section-title">Binary Bin Allocation</h3>
+                    <div class="drop-zone" id="file-drop-zone">
+                        <span class="drop-zone-prompt">Drag & Drop Binaries (.exe, .apk, .zip) or Click to Browse</span>
+                        <input type="file" id="binary-file-input" class="drop-zone-file">
+                    </div>
+                    
+                    <div id="upload-progress-wrapper" class="progress-container hidden-view">
+                        <div class="progress-details">
+                            <span id="upload-file-name">payload.zip</span>
+                            <span id="upload-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-group">
+                        <button id="data-publish-btn" class="btn-primary full-width margin-top">Execute Deployment</button>
+                        <button id="data-cancel-edit-btn" class="btn-secondary full-width margin-top hidden-view">Cancel Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="management-table-wrapper margin-top">
+                <h3 class="panel-section-title">Live Repository Log</h3>
+                <div class="table-scroll">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Title</th>
+                                <th>Asset</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
