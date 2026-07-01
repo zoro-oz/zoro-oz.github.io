@@ -8,32 +8,30 @@
 </head>
 <body class="dark-theme">
 
-    <!-- شريط التنقل الذكي -->
+    <!-- شريط التنقل المتجاوب -->
     <header id="navbar">
-        <!-- اللوجو الفاخر المعتمد للهوية البصرية -->
         <div class="logo">
             <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- المثلث الذي يرمز للقمة والأبعاد الهندسية المتقاطعة -->
                 <polygon points="50,12 12,85 88,85" class="logo-triangle"/>
-                <!-- انحناءة حرف C متقاطعة برقة مع الحرف الأساسي -->
                 <path d="M42,65 C32,65 30,50 40,42 C48,35 60,40 58,55" class="logo-curve"/>
-                <!-- امتداد حرف H والحلقة الدائرية المدارية المحيطة بالشعار -->
                 <path d="M46,38 L46,80 M62,38 L62,80 M46,58 L62,58" class="logo-h-lines"/>
                 <path d="M22,68 C35,82 72,78 82,52" class="logo-orbit"/>
             </svg>
             CH-APEX <span data-i18n="logo-sub">LABS</span>
         </div>
 
-        <!-- الروابط الأساسية المحاطة بفقاعات تفاعلية -->
-        <nav>
+        <!-- زر القائمة للهواتف -->
+        <button class="menu-toggle" id="menu-toggle">☰</button>
+
+        <nav id="nav-menu">
             <div class="nav-bubble-wrapper"><a href="#home" data-i18n="nav-home">Home</a></div>
             <div class="nav-bubble-wrapper"><a href="#games" data-i18n="nav-games">Game Studio</a></div>
+            <div class="nav-bubble-wrapper"><a href="#dynamic-content" data-i18n="nav-updates">Updates & Achievements</a></div>
             <div class="nav-bubble-wrapper"><a href="#cyber" data-i18n="nav-cyber">Cyber Labs</a></div>
+            <div class="nav-bubble-wrapper"><a href="#admin-section" id="admin-nav-link">🔒 Admin</a></div>
         </nav>
 
-        <!-- أدوات التحكم السريعة -->
-        <div class="controls">
-            <!-- فقاعة خيارات اللغة المخصصة الأنيقة -->
+        <div class="controls" id="nav-controls">
             <div class="nav-bubble-wrapper lang-dropdown-container">
                 <span id="current-lang-label">EN</span>
                 <ul class="lang-dropdown-menu">
@@ -42,7 +40,6 @@
                     <li data-lang="ar">العربية</li>
                 </ul>
             </div>
-            <!-- زر تبديل الثيم السريع بنقرة واحدة -->
             <div class="nav-bubble-wrapper">
                 <button id="theme-toggle-btn" class="btn-control">🌓</button>
             </div>
@@ -60,7 +57,7 @@
         </div>
     </section>
 
-    <!-- قسم الألعاب -->
+    <!-- قسم الألعاب وثابت استوديو الألعاب -->
     <section id="games" class="features">
         <h2 data-i18n="games-title">Smart Gaming Studio 🎮</h2>
         <div class="cards-container">
@@ -75,11 +72,62 @@
         </div>
     </section>
 
-    <!-- قسم السايبر مستقبلاً -->
+    <!-- قسم الإضافات الديناميكية (أخبار، مقالات، صور، إنجازات) -->
+    <section id="dynamic-content" class="features dynamic-section">
+        <h2 data-i18n="section-updates-title">Latest News & Achievements</h2>
+        <div class="cards-container" id="updates-container">
+            <!-- الكروت المضافة من لوحة التحكم تظهر هنا برمجياً -->
+        </div>
+    </section>
+
+    <!-- قسم السايبر -->
     <section id="cyber" class="cyber-section">
         <div class="cyber-badge" data-i18n="cyber-badge">Coming Soon</div>
         <h2 data-i18n="cyber-title">Cybersecurity Labs 🔒</h2>
         <p data-i18n="cyber-desc">We are working behind the scenes to engineer smart vulnerability scanners and AI-powered defense tools to secure the digital frontier.</p>
+    </section>
+
+    <!-- لوحة التحكم المحمية: Control Center -->
+    <section id="admin-section" class="admin-section">
+        <h2 data-i18n="admin-title">Control Center</h2>
+        
+        <!-- نموذج تسجيل الدخول للوحة التحكم -->
+        <div id="admin-login-box" class="card admin-box">
+            <h3 data-i18n="admin-login-head">Secure Admin Access</h3>
+            <div class="input-group">
+                <input type="text" id="admin-username" placeholder="User ID">
+            </div>
+            <div class="input-group">
+                <input type="password" id="admin-password" placeholder="Password">
+            </div>
+            <button id="btn-login" class="btn-primary" data-i18n="admin-login-btn">Login</button>
+            <p id="login-error" class="error-msg"></p>
+        </div>
+
+        <!-- لوحة الإدارة بعد نجاح تسجيل الدخول -->
+        <div id="admin-panel" class="card admin-panel-box hidden">
+            <h3 data-i18n="admin-panel-head">Publish New Content</h3>
+            <div class="input-group">
+                <select id="content-type" class="nav-bubble-wrapper dropdown-control spec-select">
+                    <option value="News">News / أخبار</option>
+                    <option value="Article">Article / مقال</option>
+                    <option value="Achievement">Achievement / إنجاز</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <input type="text" id="content-title" placeholder="Title (EN / FR / AR)">
+            </div>
+            <div class="input-group">
+                <input type="text" id="content-image" placeholder="Image URL (e.g., https://images.unsplash.com/...)">
+            </div>
+            <div class="input-group">
+                <textarea id="content-desc" rows="4" placeholder="Content details / Description"></textarea>
+            </div>
+            <div class="admin-actions">
+                <button id="btn-publish" class="btn-primary">Publish</button>
+                <button id="btn-logout" class="btn-secondary">Logout</button>
+            </div>
+        </div>
     </section>
 
     <footer>
